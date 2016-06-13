@@ -1,10 +1,11 @@
 import express from 'express'
 import bodyParser from 'body-parser'
+import sha1 from 'sha1'
 import auth from './lib/auth.js'
 
 const PORT = process.env.PORT || 8080
-const API_KEY = process.env.API_KEY || 'abc123'
 const SALT = process.env.SALT || 'def456'
+const API_KEY = process.env.API_KEY || sha1(`${SALT}abc123`)
 const app = express()
 
 // Authentication middleware
