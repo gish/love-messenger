@@ -10,12 +10,13 @@ const app = express()
 // Authentication middleware
 const authMiddleware = (req, res, next) => {
   const givenApiKey = req.query['api-key']
-
-  if (auth({
+  const authorized = auth({
     given: givenApiKey,
     expected: API_KEY,
     salt: SALT
-  })) {
+  })
+
+  if (authorized) {
     next()
   } else {
     res.status(401)
