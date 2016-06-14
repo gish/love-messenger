@@ -38,20 +38,26 @@ app.use(authMiddleware)
 app.post('/message', (req, res) => {
   const todaysDate = moment().format('YYYY-MM-DD')
 
-  res.status(202)
   getMessageList(GOOGLE_SPREADSHEET_ID).then((messageList) => {
-    console.log(messageList)
-    res.send(messageList)
+    const message = messageList.filter((message) => {
+      return message.date === todaysDate
+    })
+    
+    if (!message) {
+      res.status(204)
+      res.send('No message of the day')
+    } else {
+      res.status(202)
+      res.send(message)
+    }
+
+  }).catch(() => {
+    res.status(500)
+    res.send('Error getting messages')
   })
 
-  //getMessageList(googleHandler).then((list) => {
-   // message = getMessage(messageList, todaysDate)
 
-    //sendLoveMessage(MESSAGE_RECEIVER, message)
-  //})
-  //const googleHandler = undefined
-
-  //res.send('send message')
+  //sendLoveMessage(MESSAGE_RECEIVER, message)
 })
 
 app.listen(PORT, () => {
