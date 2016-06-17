@@ -3,13 +3,17 @@ import bodyParser from 'body-parser'
 import sha1 from 'sha1'
 import moment from 'moment'
 import auth from './lib/auth.js'
-import getMessageList from './lib/message-list.js'
+import getMessageList from './lib/message-list'
+import sendLoveMessage from './lib/send-love-message'
 
 const PORT = process.env.PORT || 8080
 const SALT = process.env.SALT || 'def456'
 const API_KEY = process.env.API_KEY || sha1(`${SALT}abc123`)
-const MESSAGE_RECEIVER = process.env.MESSAGE_RECEIVER
+const MESSAGE_SENDER_NAME = process.env.MESSAGE_SENDER_NAME
+const MESSAGE_RECEIVER_NUMBER = process.env.MESSAGE_RECEIVER
 const GOOGLE_SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID || '1hqAPPlbwHrf8E8MuJ6QJSobAEliT3UFwN0xA3vp5-2Y'
+const ELKS_API_USERNAME = process.env.ELKS_API_USERNAME
+const ELKS_API_PASSWORD = process.env.ELKS_API_PASSWORD
 
 const app = express()
 
@@ -38,26 +42,30 @@ app.use(authMiddleware)
 app.post('/message', (req, res) => {
   const todaysDate = moment().format('YYYY-MM-DD')
 
-  getMessageList(GOOGLE_SPREADSHEET_ID).then((messageList) => {
+  getMessageList(GOOGLE_SPREADSHEET_ID)
+  .then((messageList) => {
     const message = messageList.filter((message) => {
       return message.date === todaysDate
     })
-    
+
     if (!message) {
       res.status(204)
       res.send('No message of the day')
     } else {
+      sendLoveMessage({
+        senderName: MESSAGE_SENDER_NAME,
+        receiverNumber: MESSAGE_RECEIVER_NUMBER,
+        message: message,
+        username: ELKS_API_USERNAME,
+        password: ELKS_API_PASSWORD
+      })
       res.status(202)
       res.send(message)
     }
-
   }).catch(() => {
     res.status(500)
     res.send('Error getting messages')
   })
-
-
-  //sendLoveMessage(MESSAGE_RECEIVER, message)
 })
 
 app.listen(PORT, () => {
