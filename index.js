@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 8080
 const SALT = process.env.SALT || 'def456'
 const API_KEY = process.env.API_KEY || sha1(`${SALT}abc123`)
 const MESSAGE_SENDER_NAME = process.env.MESSAGE_SENDER_NAME
-const MESSAGE_RECEIVER_NUMBER = process.env.MESSAGE_RECEIVER
+const MESSAGE_RECEIVER_NUMBER = process.env.MESSAGE_RECEIVER_NUMBER
 const GOOGLE_SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID || '1hqAPPlbwHrf8E8MuJ6QJSobAEliT3UFwN0xA3vp5-2Y'
 const ELKS_API_USERNAME = process.env.ELKS_API_USERNAME
 const ELKS_API_PASSWORD = process.env.ELKS_API_PASSWORD
@@ -42,20 +42,25 @@ app.use(authMiddleware)
 app.post('/message', (req, res) => {
   const todaysDate = moment().format('YYYY-MM-DD')
 
+  console.log(`Got message POST request`)
+
   getMessageList(GOOGLE_SPREADSHEET_ID)
   .then((messageList) => {
     const message = messageList.filter((message) => {
       return message.date === todaysDate
-    })
+    })[0]
+    console.log(message)
+    const messageText = message.message || ''
 
-    if (!message) {
+    if (messageText.length === 0) {
       res.status(204)
       res.send('No message of the day')
     } else {
+      console.log(`Trying to send message "${messageText}"`)
       sendLoveMessage({
         senderName: MESSAGE_SENDER_NAME,
         receiverNumber: MESSAGE_RECEIVER_NUMBER,
-        message: message,
+        message: messageText,
         username: ELKS_API_USERNAME,
         password: ELKS_API_PASSWORD
       })
