@@ -19,7 +19,7 @@ const app = express()
 
 // Authentication middleware
 const authMiddleware = (req, res, next) => {
-  const givenApiKey = req.query['api-key']
+  const givenApiKey = req.query['key']
   const authorized = auth({
     given: givenApiKey,
     expected: API_KEY,
@@ -49,12 +49,12 @@ app.post('/message', (req, res) => {
     const message = messageList.filter((message) => {
       return message.date === todaysDate
     })[0]
-    console.log(message)
     const messageText = message.message || ''
 
     if (messageText.length === 0) {
-      res.status(204)
+      console.log('No message of the day')
       res.send('No message of the day')
+      res.status(204)
     } else {
       console.log(`Trying to send message "${messageText}"`)
       sendLoveMessage({
@@ -64,12 +64,12 @@ app.post('/message', (req, res) => {
         username: ELKS_API_USERNAME,
         password: ELKS_API_PASSWORD
       })
-      res.status(202)
       res.send(message)
+      res.status(202)
     }
   }).catch(() => {
-    res.status(500)
     res.send('Error getting messages')
+    res.status(500)
   })
 })
 
