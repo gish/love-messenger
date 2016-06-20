@@ -64,7 +64,7 @@ app.post('/message', (req, res) => {
         username: ELKS_API_USERNAME,
         password: ELKS_API_PASSWORD
       })
-      res.send(message)
+      res.send(`Sent message ${message}`)
       res.status(202)
     }
   }).catch(() => {
