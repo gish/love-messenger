@@ -75,4 +75,5 @@ app.post('/message', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
+  console.log(`API key: ${API_KEY}`)
 })
