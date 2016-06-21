@@ -22,8 +22,7 @@ const authMiddleware = (req, res, next) => {
   const givenApiKey = req.query['key']
   const authorized = auth({
     given: givenApiKey,
-    expected: API_KEY,
-    salt: SALT
+    expected: API_KEY
   })
 
   if (authorized) {
