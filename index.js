@@ -63,8 +63,14 @@ app.post('/message', (req, res) => {
         username: ELKS_API_USERNAME,
         password: ELKS_API_PASSWORD
       })
-      res.send(`Sent message "${messageText}"`)
-      res.status(202)
+      .then(() => {
+        res.send(`Sent message "${messageText}"`)
+        res.status(202)
+      })
+      .catch(() => {
+        res.send('Error sending message')
+        res.status(500)
+      })
     }
   }).catch(() => {
     res.send('Error getting messages')
