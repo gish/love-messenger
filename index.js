@@ -5,13 +5,13 @@ import auth from './lib/auth.js'
 import getMessageList from './lib/message-list'
 import sendLoveMessage from './lib/send-love-message'
 
-const PORT = process.env.PORT || 8080
-const API_KEY = process.env.API_KEY || 'abc123'
-const MESSAGE_SENDER_NAME = process.env.MESSAGE_SENDER_NAME
-const MESSAGE_RECEIVER_NUMBER = process.env.MESSAGE_RECEIVER_NUMBER
-const GOOGLE_SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID || '1hqAPPlbwHrf8E8MuJ6QJSobAEliT3UFwN0xA3vp5-2Y'
-const ELKS_API_USERNAME = process.env.ELKS_API_USERNAME
+const API_KEY = process.env.API_KEY
 const ELKS_API_PASSWORD = process.env.ELKS_API_PASSWORD
+const ELKS_API_USERNAME = process.env.ELKS_API_USERNAME
+const GOOGLE_SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID
+const MESSAGE_RECEIVER_NUMBER = process.env.MESSAGE_RECEIVER_NUMBER
+const MESSAGE_SENDER_NAME = process.env.MESSAGE_SENDER_NAME
+const PORT = process.env.PORT
 
 const app = express()
 
