@@ -4,14 +4,22 @@ import moment from 'moment'
 import auth from './lib/auth.js'
 import getMessageList from './lib/message-list'
 import sendLoveMessage from './lib/send-love-message'
+import getRequiredKey from './lib/get-required-key'
 
-const API_KEY = process.env.API_KEY
-const ELKS_API_PASSWORD = process.env.ELKS_API_PASSWORD
-const ELKS_API_USERNAME = process.env.ELKS_API_USERNAME
-const GOOGLE_SPREADSHEET_ID = process.env.GOOGLE_SPREADSHEET_ID
-const MESSAGE_RECEIVER_NUMBER = process.env.MESSAGE_RECEIVER_NUMBER
-const MESSAGE_SENDER_NAME = process.env.MESSAGE_SENDER_NAME
-const PORT = process.env.PORT
+const requiredKeys = [
+  'API_KEY',
+  'ELKS_API_PASSWORD',
+  'ELKS_API_USERNAME',
+  'GOOGLE_SPREADSHEET_ID',
+  'MESSAGE_RECEIVER_NUMBER',
+  'MESSAGE_SENDER_NAME',
+  'PORT'
+]
+
+const config = requiredKeys.reduce((obj, requiredKey) => {
+  obj[requiredKey] = getRequiredKey(process.env, requiredKey)
+  return obj
+}, {})
 
 const app = express()
 
@@ -20,7 +28,7 @@ const authMiddleware = (req, res, next) => {
   const givenApiKey = req.query['key']
   const authorized = auth({
     given: givenApiKey,
-    expected: API_KEY
+    expected: config.API_KEY
   })
 
   if (authorized) {
@@ -41,7 +49,7 @@ app.post('/message', (req, res) => {
 
   console.log(`Got message POST request`)
 
-  getMessageList(GOOGLE_SPREADSHEET_ID)
+  getMessageList(config.GOOGLE_SPREADSHEET_ID)
   .then((messageList) => {
     const message = messageList.filter((message) => {
       return message.date === todaysDate
@@ -55,11 +63,11 @@ app.post('/message', (req, res) => {
     } else {
       console.log(`Trying to send message "${messageText}"`)
       sendLoveMessage({
-        senderName: MESSAGE_SENDER_NAME,
-        receiverNumber: MESSAGE_RECEIVER_NUMBER,
+        senderName: config.MESSAGE_SENDER_NAME,
+        receiverNumber: config.MESSAGE_RECEIVER_NUMBER,
         message: messageText,
-        username: ELKS_API_USERNAME,
-        password: ELKS_API_PASSWORD
+        username: config.ELKS_API_USERNAME,
+        password: config.ELKS_API_PASSWORD
       })
       .then(() => {
         res.send(`Sent message "${messageText}"`)
@@ -76,7 +84,8 @@ app.post('/message', (req, res) => {
   })
 })
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-  console.log(`API key: ${API_KEY}`)
+app.listen(config.PORT, () => {
+  console.log(`Server running on port ${config.PORT}`)
+  console.log(`Config:`)
+  console.log(config)
 })
