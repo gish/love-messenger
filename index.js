@@ -1,13 +1,11 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-import sha1 from 'sha1'
 import moment from 'moment'
 import auth from './lib/auth.js'
 import getMessageList from './lib/message-list'
 import sendLoveMessage from './lib/send-love-message'
 
 const PORT = process.env.PORT || 8080
-const SALT = process.env.SALT || 'def456'
 const API_KEY = process.env.API_KEY || 'abc123'
 const MESSAGE_SENDER_NAME = process.env.MESSAGE_SENDER_NAME
 const MESSAGE_RECEIVER_NUMBER = process.env.MESSAGE_RECEIVER_NUMBER
