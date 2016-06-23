@@ -4,11 +4,12 @@
   "description": "Send love messages to your dearly beloved via your favorite HTTP action",
   "main": "index.js",
   "scripts": {
-    "start": "npm run babel-node -- index.js",
+    "start": "npm run dist && node dist.js",
     "dev": "nodemon --exec npm run babel-node -- index.js",
-    "test": "mocha --require babel-core/register -C $(find . -name '*.spec.js') --growl",
+    "test": "mocha -r babel-core/register -C $(find . -name '*.spec.js') --growl",
     "test:watch": "npm test -- -w --reporter min",
-    "babel-node": "babel-node --presets es2015"
+    "babel-node": "babel-node --presets es2015",
+    "dist": "browserify --node -t babelify --presets [ es2015 ] index.js -o dist.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   },
   "homepage": "https://github.com/gish/love-messenger#readme",
   "devDependencies": {
+    "dotenv": "^2.0.0",
     "expect": "^1.20.1",
     "mocha": "^2.5.3",
     "sinon": "^1.17.4"
@@ -28,9 +30,12 @@
   "dependencies": {
     "babel-cli": "^6.10.1",
     "babel-preset-es2015": "^6.9.0",
+    "babelify": "^7.3.0",
     "body-parser": "^1.15.1",
+    "browserify": "^13.0.1",
     "express": "^4.13.4",
     "moment": "^2.13.0",
-    "sha1": "^1.1.1"
+    "sha1": "^1.1.1",
+    "uglify-js": "^2.6.4"
   }
 }
