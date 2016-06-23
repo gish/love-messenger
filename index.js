@@ -1,13 +1,17 @@
-import express from 'express'
 import bodyParser from 'body-parser'
-import moment from 'moment'
 import dotenv from 'dotenv'
+import express from 'express'
+import moment from 'moment'
 import auth from './lib/auth.js'
 import getMessageList from './lib/message-list'
 import sendLoveMessage from './lib/send-love-message'
 import getRequiredKey from './lib/get-required-key'
 
-dotenv.load()
+const isDevelopment = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
+
+if (isDevelopment) {
+  dotenv.load()
+}
 
 const requiredKeys = [
   'API_KEY',
