@@ -65,8 +65,8 @@ app.post('/message', (req, res) => {
 
     if (messageText.length === 0) {
       console.log('No message of the day')
-      res.send('No message of the day')
       res.status(204)
+      res.send('No message of the day')
     } else {
       console.log(`Trying to send message "${messageText}"`)
       sendLoveMessage({
@@ -77,17 +77,17 @@ app.post('/message', (req, res) => {
         password: config.ELKS_API_PASSWORD
       })
       .then(() => {
-        res.send(`Sent message "${messageText}"`)
         res.status(202)
+        res.send(`Sent message "${messageText}"`)
       })
       .catch(() => {
-        res.send('Error sending message')
         res.status(500)
+        res.send('Error sending message')
       })
     }
   }).catch(() => {
-    res.send('Error getting messages')
     res.status(500)
+    res.send('Error getting messages')
   })
 })
 
