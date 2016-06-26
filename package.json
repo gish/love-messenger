@@ -37,5 +37,8 @@
     "moment": "^2.13.0",
     "sha1": "^1.1.1",
     "uglify-js": "^2.6.4"
+  },
+  "standard": {
+    "globals": ["describe", "it", "beforeEach", "afterEach"]
   }
 }
