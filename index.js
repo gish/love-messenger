@@ -19,14 +19,15 @@ const requiredKeys = [
   'ELKS_API_USERNAME',
   'GOOGLE_SPREADSHEET_ID',
   'MESSAGE_RECEIVER_NUMBER',
-  'MESSAGE_SENDER_NAME',
-  'PORT'
+  'MESSAGE_SENDER_NAME'
 ]
 
 const config = requiredKeys.reduce((obj, requiredKey) => {
   obj[requiredKey] = getRequiredKey(process.env, requiredKey)
   return obj
 }, {})
+
+config.PORT = process.env.PORT || 8080
 
 const app = express()
 
