@@ -2,7 +2,7 @@ import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 import express from 'express'
 import moment from 'moment'
-import auth from './lib/auth.js'
+import authMiddleware from './lib/middleware.auth'
 import getMessageList from './lib/message-list'
 import sendLoveMessage from './lib/send-love-message'
 import getRequiredKey from './lib/get-required-key'
@@ -30,25 +30,11 @@ const config = requiredKeys.reduce((obj, requiredKey) => {
 
 const app = express()
 
-// Authentication middleware
-const authMiddleware = (req, res, next) => {
-  const givenApiKey = req.query['key']
-  const authorized = auth({
-    given: givenApiKey,
-    expected: config.API_KEY
-  })
-
-  if (authorized) {
-    next()
-  } else {
-    res.status(401)
-    res.send('Invalid API key')
-  }
-}
-
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(authMiddleware)
+app.use(authMiddleware({
+  apiKey: config.API_KEY
+}))
 
 // POST message
 app.post('/message', (req, res) => {
