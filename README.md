@@ -3,7 +3,7 @@
 
 Send love messages to your dearly beloved via your favorite HTTP action.
 
-This app retrieves a message of the day from a Google Spreadsheet and sends it via [46elks](https://www.46elks.com/) messaging API to a specified number. The app is tailored for running on a free Heroku dyno and to be called daily via a free cron service (e g [Crondash](https://crondash.com/)).
+This app retrieves the message of the day from a Google Spreadsheet and sends it via [46elks'](https://www.46elks.com/) messaging API to a specified number. The app is tailored for running on a free Heroku dyno and to be called daily via a free cron service (e g [Crondash](https://crondash.com/)).
 
 # Send message
 Call the `/message` endpoint with POST and the query var `key` set to the `API_KEY` defined in the env vars.
@@ -33,7 +33,9 @@ The following env vars are required
 
 # Develop
 Run tests with `$ npm run test`
+
 Watch tests with `$ npm run test:watch`
+
 Run test coverage report with `$ npm run test:coverage`
 
 # Message spreadsheet
