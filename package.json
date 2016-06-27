@@ -7,6 +7,7 @@
     "start": "npm run dist && node dist.js",
     "dev": "nodemon --exec npm run babel-node -- index.js",
     "test": "mocha -r babel-core/register -C $(find . -name '*.spec.js') --growl",
+    "test:coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --require babel-core/register -C $(find . -name '*.spec.js')",
     "test:watch": "npm test -- -w --reporter min",
     "babel-node": "babel-node --presets es2015",
     "dist": "browserify --node -t babelify --presets [ es2015 ] index.js -o dist.js"
@@ -23,6 +24,7 @@
   "homepage": "https://github.com/gish/love-messenger#readme",
   "devDependencies": {
     "expect": "^1.20.1",
+    "istanbul": "^1.0.0-alpha.2",
     "mocha": "^2.5.3",
     "sinon": "^1.17.4"
   },
@@ -39,6 +41,11 @@
     "uglify-js": "^2.6.4"
   },
   "standard": {
-    "globals": ["describe", "it", "beforeEach", "afterEach"]
+    "globals": [
+      "describe",
+      "it",
+      "beforeEach",
+      "afterEach"
+    ]
   }
 }
