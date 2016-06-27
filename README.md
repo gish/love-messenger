@@ -34,6 +34,7 @@ The following env vars are required
 # Develop
 Run tests with `$ npm run test`
 Watch tests with `$ npm run test:watch`
+Run test coverage report with `$ npm run test:coverage`
 
 # Message spreadsheet
 The messages to be sent are retrieved from a Google Spreadsheet.  [This sample sheet](https://docs.google.com/spreadsheets/d/1WQNN7rUDkpccCtDu6QDQUu2z1wE8msOZS8QWcFw5kvQ/pubhtml) has ID _1WQNN7rUDkpccCtDu6QDQUu2z1wE8msOZS8QWcFw5kvQ_, which is what is supposed to be the value of the env var `GOOGLE_SPREADSHEET_ID`.
