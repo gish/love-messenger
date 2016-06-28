@@ -26,6 +26,14 @@ The following env vars are required
 * `MESSAGE_RECEIVER_NUMBER`: Number to receiver, in international format
 * `MESSAGE_SENDER_NAME`: Name of the sender
 
+## Slack
+It's possible to log everything at a certain log level to Slack. In order to achieve that, set the following env vars:
+* `SLACK_API_TOKEN`: API token
+* `SLACK_CHANNEL`: Name of channel to post to
+* `SLACK_DOMAIN`: Sub domain for the slack organization
+* `SLACK_LOG_LEVEL`: Log level, default is info
+* `SLACK_USERNAME`: Username of integration
+
 # Running locally
 1. Define the env vars for production in _.env_
 1. `$ npm install`
