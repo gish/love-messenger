@@ -6,6 +6,7 @@ import authMiddleware from './lib/middleware.auth'
 import getMessageList from './lib/message-list'
 import sendLoveMessage from './lib/send-love-message'
 import getRequiredKey from './lib/get-required-key'
+import loggerFactory from './lib/logger'
 
 const isDevelopment = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
 
@@ -29,6 +30,17 @@ const config = requiredKeys.reduce((obj, requiredKey) => {
 
 config.PORT = process.env.PORT || 8080
 
+const logger = loggerFactory({
+  level: 'debug',
+  slack: {
+    apiToken: process.env.SLACK_API_TOKEN,
+    domain: process.env.SLACK_DOMAIN,
+    logLevel: process.env.SLACK_LOG_LEVEL,
+    channel: process.env.SLACK_CHANNEL,
+    userName: process.env.SLACK_USERNAME
+  }
+})
+
 const app = express()
 
 app.use(bodyParser.json())
@@ -41,7 +53,7 @@ app.use(authMiddleware({
 app.post('/message', (req, res) => {
   const todaysDate = moment().format('YYYY-MM-DD')
 
-  console.log(`Got message POST request`)
+  logger.debug('Got message POST request')
 
   getMessageList(config.GOOGLE_SPREADSHEET_ID)
   .then((messageList) => {
@@ -51,19 +63,24 @@ app.post('/message', (req, res) => {
     const messageText = message.message || ''
 
     if (messageText.length === 0) {
-      console.log('No message of the day')
+      logger.info('No message of the day')
+
       res.status(204)
       res.send('No message of the day')
     } else {
-      console.log(`Trying to send message "${messageText}"`)
+      logger.debug(`Trying to send message "${messageText}"`)
       sendLoveMessage({
         senderName: config.MESSAGE_SENDER_NAME,
         receiverNumber: config.MESSAGE_RECEIVER_NUMBER,
         message: messageText,
         username: config.ELKS_API_USERNAME,
-        password: config.ELKS_API_PASSWORD
+        password: config.ELKS_API_PASSWORD,
+        logger: logger
       })
       .then(() => {
+        const receiverNumber = config.MESSAGE_RECEIVER_NUMBER
+        logger.info(`Sent message "${messageText}" to ${receiverNumber}`)
+
         res.status(202)
         res.send(`Sent message "${messageText}"`)
       })
@@ -79,7 +96,6 @@ app.post('/message', (req, res) => {
 })
 
 app.listen(config.PORT, () => {
-  console.log(`Server running on port ${config.PORT}`)
-  console.log(`Config:`)
-  console.log(config)
+  logger.debug(`Server running on port ${config.PORT}`)
+  logger.debug(`Config: %j`, config)
 })
