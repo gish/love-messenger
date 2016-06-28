@@ -6,6 +6,7 @@ import authMiddleware from './lib/middleware.auth'
 import getMessageList from './lib/message-list'
 import sendLoveMessage from './lib/send-love-message'
 import getRequiredKey from './lib/get-required-key'
+import setupLogger from './lib/logger'
 
 const isDevelopment = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development')
 
@@ -27,7 +28,20 @@ const config = requiredKeys.reduce((obj, requiredKey) => {
   return obj
 }, {})
 
+config.slack = {
+  apiToken: process.env.SLACK_API_TOKEN,
+  domain: process.env.SLACK_DOMAIN,
+  logLevel: process.env.SLACK_LOG_LEVEL,
+  channel: process.env.SLACK_CHANNEL,
+  userName: process.env.SLACK_USERNAME
+}
+
 config.PORT = process.env.PORT || 8080
+
+const logger = setupLogger({
+  level: 'debug',
+  slack: config.slack
+})
 
 const app = express()
 
@@ -79,7 +93,7 @@ app.post('/message', (req, res) => {
 })
 
 app.listen(config.PORT, () => {
-  console.log(`Server running on port ${config.PORT}`)
-  console.log(`Config:`)
-  console.log(config)
+  logger.log('debug', `Server running on port ${config.PORT}`)
+  logger.debug(`Config:`)
+  logger.debug(config)
 })
