@@ -1,0 +1,53 @@
+{
+  "name": "love-messenger",
+  "scripts": {
+  },
+  "env": {
+    "API_KEY": {
+      "required": true
+    },
+    "ELKS_API_PASSWORD": {
+      "required": true
+    },
+    "ELKS_API_USERNAME": {
+      "required": true
+    },
+    "GOOGLE_SPREADSHEET_ID": {
+      "required": true
+    },
+    "MESSAGE_RECEIVER_NUMBER": {
+      "required": true
+    },
+    "MESSAGE_SENDER_NAME": {
+      "required": true
+    },
+    "SLACK_API_TOKEN": {
+      "required": true
+    },
+    "SLACK_CHANNEL": {
+      "required": true
+    },
+    "SLACK_DOMAIN": {
+      "required": true
+    },
+    "SLACK_LOG_LEVEL": {
+      "required": true
+    },
+    "SLACK_USERNAME": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "papertrail"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
