@@ -22,19 +22,19 @@
       "required": true
     },
     "SLACK_API_TOKEN": {
-      "required": true
+      "required": false
     },
     "SLACK_CHANNEL": {
-      "required": true
+      "required": false
     },
     "SLACK_DOMAIN": {
-      "required": true
+      "required": false
     },
     "SLACK_LOG_LEVEL": {
-      "required": true
+      "required": false
     },
     "SLACK_USERNAME": {
-      "required": true
+      "required": false
     }
   },
   "formation": {
