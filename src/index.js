@@ -2,7 +2,7 @@ import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 import express from 'express'
 import moment from 'moment'
-import authMiddleware from './lib/middleware.auth'
+import authMiddleware from './middleware/auth'
 import getMessageList from './lib/message-list'
 import sendLoveMessage from './lib/send-love-message'
 import getRequiredKey from './lib/get-required-key'
@@ -52,7 +52,9 @@ app.use(authMiddleware({
 // POST message
 app.post('/message', (req, res) => {
   const todaysDate = moment().format('YYYY-MM-DD')
+  const receiver = req.query['receiver']
 
+  logger.debug(`Got receiver ${receiver}`)
   logger.debug('Got message POST request')
 
   getMessageList(config.GOOGLE_SPREADSHEET_ID)
