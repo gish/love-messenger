@@ -8,6 +8,7 @@ module.exports = {
     filename: 'dist.js'
   },
   module: {
+    noParse: /node_modules\/json-schema\/lib\/validate\.js/,
     loaders: [{
       test: /\.js$/,
       loaders: ['babel-loader']
