@@ -4,13 +4,14 @@
   "description": "Send love messages to your dearly beloved via your favorite HTTP action",
   "main": "index.js",
   "scripts": {
-    "start": "npm run dist && node dist.js",
+    "start": "npm run dist && node dist/index.js",
     "dev": "nodemon --exec npm run babel-node -- index.js",
     "test": "mocha -r babel-core/register -C $(find . -name '*.spec.js') --growl",
     "test:coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --require babel-core/register -C $(find . -name '*.spec.js')",
     "test:watch": "npm test -- -w --reporter min",
     "babel-node": "babel-node --presets es2015",
-    "dist": "webpack"
+    "build": "babel src --out-dir dist --ignore '*.spec.js'",
+    "dist": "rm -rf dist && npm run build"
   },
   "repository": {
     "type": "git",
