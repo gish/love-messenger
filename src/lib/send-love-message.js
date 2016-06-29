@@ -25,10 +25,10 @@ const sendLoveMessage = (opts) => {
       const statusCode = response.statusCode
 
       if (error || statusCode !== 200) {
-        logger.error(`[loveMessage] Error sending message. Response: ${body}`)
+        logger.error(`Error sending message. Response: ${body}`)
         reject(response)
       } else {
-        logger.debug(`[loveMessage] Response: ${body}`)
+        logger.debug(`Response: ${body}`)
         resolve(body)
       }
     })
