@@ -75,7 +75,8 @@ app.post('/message', (req, res) => {
         message: messageText,
         username: config.ELKS_API_USERNAME,
         password: config.ELKS_API_PASSWORD,
-        logger: logger
+        logger: logger,
+        dryRun: isDevelopment
       })
       .then(() => {
         const receiverNumber = config.MESSAGE_RECEIVER_NUMBER
