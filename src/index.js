@@ -97,5 +97,5 @@ app.post('/message', (req, res) => {
 
 app.listen(config.PORT, () => {
   logger.debug(`Server running on port ${config.PORT}`)
-  logger.debug(`Config: %j`, config)
+  logger.debug(`Config:`, config)
 })
