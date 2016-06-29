@@ -20,21 +20,6 @@
     },
     "MESSAGE_SENDER_NAME": {
       "required": true
-    },
-    "SLACK_API_TOKEN": {
-      "required": true
-    },
-    "SLACK_CHANNEL": {
-      "required": true
-    },
-    "SLACK_DOMAIN": {
-      "required": true
-    },
-    "SLACK_LOG_LEVEL": {
-      "required": true
-    },
-    "SLACK_USERNAME": {
-      "required": true
     }
   },
   "formation": {
