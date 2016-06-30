@@ -1,5 +1,8 @@
+import httpMocks from 'node-mocks-http'
 import expect from 'expect'
 import requireReceiverNumber from './require-receiver-number'
+
+// http://www.slideshare.net/morrissinger/unit-testing-express-middleware
 
 describe('Require receiver number middleware', () => {
   describe('Invalid or missing number', () => {
