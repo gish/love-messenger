@@ -1,6 +1,6 @@
 import expect from 'expect'
 import sinon from 'sinon'
-import authMiddleware from './middleware.auth'
+import authMiddleware from './auth'
 
 describe('Auth middleware', () => {
   const sandbox = sinon.sandbox.create()
