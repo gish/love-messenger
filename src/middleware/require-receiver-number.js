@@ -1,6 +1,6 @@
 const requireReceiverNumber = (req, res, next) => {
   const numberRegex = /^([+]46)7[0236]\d{7}$/
-  const receiverNumber = req.params['receiver_number'] || ''
+  const receiverNumber = req.body['receiver_number'] || ''
   const validNumber = numberRegex.test(receiverNumber)
 
   if (!receiverNumber) {

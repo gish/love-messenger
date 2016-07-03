@@ -16,7 +16,9 @@ describe('Require receiver number middleware', () => {
     it('should return 400 when number is not provided', () => {
       // given
       const request = httpMocks.createRequest({
-        receiver_number: undefined
+        body: {
+          receiver_number: undefined
+        }
       })
       const response = httpMocks.createResponse()
       const expectedStatusCode = 400
@@ -31,7 +33,7 @@ describe('Require receiver number middleware', () => {
     it('should return 400 when number is not valid', () => {
       // given
       const request = httpMocks.createRequest({
-        params: {
+        body: {
           receiver_number: '070123'
         }
       })
@@ -48,7 +50,7 @@ describe('Require receiver number middleware', () => {
     it('should send message when number is not provided', () => {
       // given
       const request = httpMocks.createRequest({
-        params: {
+        body: {
           receiver_number: undefined
         }
       })
@@ -64,7 +66,7 @@ describe('Require receiver number middleware', () => {
     it('should send message when number is not valid', () => {
       // given
       const request = httpMocks.createRequest({
-        params: {
+        body: {
           receiver_number: '070123'
         }
       })
@@ -83,7 +85,7 @@ describe('Require receiver number middleware', () => {
     it('should return 200 when valid number is provided', () => {
       // given
       const request = httpMocks.createRequest({
-        params: {
+        body: {
           receiver_number: '+46701234567'
         }
       })
@@ -100,7 +102,7 @@ describe('Require receiver number middleware', () => {
     it('should proceed when number is valid', () => {
       // given
       const request = httpMocks.createRequest({
-        params: {
+        body: {
           receiver_number: '+46701234567'
         }
       })
