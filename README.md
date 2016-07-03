@@ -6,10 +6,10 @@ Send love messages to your dearly beloved via your favorite HTTP action.
 This app retrieves the message of the day from a Google Spreadsheet and sends it via [46elks'](https://www.46elks.com/) messaging API to a specified number. The app is tailored for running on a free Heroku dyno and to be called daily via a free cron service (e g [Crondash](https://crondash.com/)).
 
 # Send message
-Call the `/message` endpoint with POST and the query var `key` set to the `API_KEY` defined in the env vars.
+Call the `/message` endpoint with POST, the query var `key` set to the `API_KEY` defined in the env vars and the `receiver_number` body var set to the international format of the receiving number.
 
 ```
-$ curl -X POST http://localhost:8080/message?key=abc123
+$ curl -X POST http://localhost:8080/message?key=abc123 -d "receiver_number=+46701231231"
 ```
 
 # Running in production on Heroku
@@ -23,7 +23,6 @@ The following env vars are required
 * `ELKS_API_PASSWORD`: Your 46elks password
 * `ELKS_API_USERNAME`: Your 46elks username
 * `GOOGLE_SPREADSHEET_ID`: The ID of the message spreadsheet
-* `MESSAGE_RECEIVER_NUMBER`: Number to receiver, in international format
 * `MESSAGE_SENDER_NAME`: Name of the sender
 
 ## Slack

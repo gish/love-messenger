@@ -7,10 +7,17 @@ const sendLoveMessage = (opts) => {
     message,
     username,
     password,
-    logger
+    logger,
+    dryRun
   } = opts
 
   return new Promise((resolve, reject) => {
+    if (dryRun) {
+      logger.debug('Will not send message')
+      resolve({})
+      return
+    }
+
     request.post('https://api.46elks.com/a1/SMS', {
       form: {
         from: senderName,

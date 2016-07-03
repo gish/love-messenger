@@ -6,9 +6,10 @@
   "scripts": {
     "start": "npm run dist && node dist/index.js",
     "dev": "nodemon --exec npm run babel-node -- src/index.js",
-    "test": "mocha -r babel-core/register -C $(find . -name '*.spec.js') --growl",
+    "test": "npm run test:unit",
+    "test:unit": "mocha -r babel-core/register -C $(find src -name '*.spec.js') --growl",
+    "test:unit:watch": "npm run test:unit -- -w --reporter min",
     "test:coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --require babel-core/register -C $(find . -name '*.spec.js')",
-    "test:watch": "npm test -- -w --reporter min",
     "babel-node": "babel-node --presets es2015",
     "build": "babel src --out-dir dist --ignore '*.spec.js'",
     "dist": "rm -rf dist && npm run build"
@@ -27,6 +28,7 @@
     "expect": "^1.20.1",
     "istanbul": "^1.0.0-alpha.2",
     "mocha": "^2.5.3",
+    "node-mocks-http": "^1.5.2",
     "sinon": "^1.17.4"
   },
   "dependencies": {
