@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import express from 'express'
 import moment from 'moment'
 import authMiddleware from './middleware/auth'
+import requireReceiverNumber from './middleware/require-receiver-number'
 import getMessageList from './lib/message-list'
 import sendLoveMessage from './lib/send-love-message'
 import getRequiredKey from './lib/get-required-key'
@@ -19,7 +20,6 @@ const requiredKeys = [
   'ELKS_API_PASSWORD',
   'ELKS_API_USERNAME',
   'GOOGLE_SPREADSHEET_ID',
-  'MESSAGE_RECEIVER_NUMBER',
   'MESSAGE_SENDER_NAME'
 ]
 
@@ -50,11 +50,11 @@ app.use(authMiddleware({
 }))
 
 // POST message
-app.post('/message', (req, res) => {
+app.post('/message', requireReceiverNumber, (req, res) => {
   const todaysDate = moment().format('YYYY-MM-DD')
-  const receiver = req.query['receiver']
+  const receiverNumber = req.body['receiver_number']
 
-  logger.debug(`Got receiver ${receiver}`)
+  logger.debug(`Got receiver ${receiverNumber}`)
   logger.debug('Got message POST request')
 
   getMessageList(config.GOOGLE_SPREADSHEET_ID)
@@ -73,7 +73,7 @@ app.post('/message', (req, res) => {
       logger.debug(`Trying to send message "${messageText}"`)
       sendLoveMessage({
         senderName: config.MESSAGE_SENDER_NAME,
-        receiverNumber: config.MESSAGE_RECEIVER_NUMBER,
+        receiverNumber: receiverNumber,
         message: messageText,
         username: config.ELKS_API_USERNAME,
         password: config.ELKS_API_PASSWORD,
