@@ -81,7 +81,6 @@ app.post('/message', requireReceiverNumber, (req, res) => {
         dryRun: isDevelopment
       })
       .then(() => {
-        const receiverNumber = config.MESSAGE_RECEIVER_NUMBER
         logger.info(`Sent message "${messageText}" to ${receiverNumber}`)
 
         res.status(202)
