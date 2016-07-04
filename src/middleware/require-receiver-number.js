@@ -11,7 +11,7 @@ const requireReceiverNumber = (req, res, next) => {
 
   if (!validNumber) {
     res.status(400)
-    res.send('Invalid parameter receiver_number')
+    res.send(`Invalid parameter receiver_number: ${receiverNumber}`)
     return
   }
 
