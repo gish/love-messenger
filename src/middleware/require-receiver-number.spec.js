@@ -99,6 +99,23 @@ describe('Require receiver number middleware', () => {
       expect(response.statusCode).toEqual(expectedStatusCode)
     })
 
+    it('should accept number without plus sign', () => {
+      // given
+      const request = httpMocks.createRequest({
+        body: {
+          receiver_number: '46701238567'
+        }
+      })
+      const response = httpMocks.createResponse()
+      const nextSpy = sandbox.spy()
+
+      // when
+      requireReceiverNumber(request, response, nextSpy)
+
+      // then
+      expect(nextSpy.called).toBe(true)
+    })
+
     it('should proceed when number is valid', () => {
       // given
       const request = httpMocks.createRequest({
