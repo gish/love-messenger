@@ -63,21 +63,30 @@ describe('Require receiver number middleware', () => {
       // then
       expect(response._getData()).toEqual(expectedMessage)
     })
+
     it('should send message when number is not valid', () => {
       // given
+      const invalidNumber = '070123'
       const request = httpMocks.createRequest({
         body: {
-          receiver_number: '070123'
+          receiver_number: invalidNumber
         }
       })
       const response = httpMocks.createResponse()
-      const expectedMessage = 'Invalid parameter receiver_number'
+      const expectedMessage = `Invalid parameter receiver_number: ${invalidNumber}`
 
       // when
       requireReceiverNumber(request, response)
 
       // then
       expect(response._getData()).toEqual(expectedMessage)
+    })
+
+    it('should log the invalid number when number is not valid', () => {
+      // given
+      // when
+      // then
+      expect(false).toEqual(true)
     })
   })
 
